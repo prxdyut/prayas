@@ -1,6 +1,9 @@
 import Head from "next/head";
 import TeacherContainer from "../../src/containers/teacher/index";
 import { Container } from "@nextui-org/react";
+import { Switch, Spacer, Radio, Grid, Button } from "@nextui-org/react";
+import Link from 'next/link'
+
 
 export default function Home() {
   return (
@@ -13,7 +16,27 @@ export default function Home() {
       </Head>
       <main>
         <Container css={{mt: 16}}>
-            
+            <Grid.Container gap={2}>
+          <Grid xs justify='center'>
+            <Link href='/admin/FeeInfo'>
+            <Button >
+              Fee Data
+            </Button>
+            </Link>
+          </Grid>
+          <Grid xs justify='center'>
+            <Link href='/admin/PayInfo'>
+            <Button >
+              Payments Data
+            </Button></Link>
+          </Grid>
+          <Grid xs justify='center'>
+            <Link href='.'>
+            <Button >
+              Create User
+            </Button></Link>
+          </Grid>
+        </Grid.Container>
         </Container>
       </main>
     </>
