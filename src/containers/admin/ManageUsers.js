@@ -34,14 +34,15 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [gotUser, setGotUser] = useState(false);
   const [input, setInput] = useState({
-      rno: null,
-      name: null,
-      pno: null,
-      std: null
+    rno: null,
+    name: null,
+    pno: null,
+    std: null,
+    type: null,
   });
 
   const phoneNumberWithCC = "+91" + phoneNumber;
-  
+
   const fetchUser = async () => {
     const docRef = doc(db, "users", phoneNumberWithCC);
     const docSnap = await getDoc(docRef);
@@ -50,7 +51,7 @@ export default function Home() {
       setUserData(docSnap.data());
       setLoading(false);
       setGotUser(true);
-      
+
       alert("Got User!");
     } else {
       alert("No User!");
@@ -58,31 +59,40 @@ export default function Home() {
     }
   };
 
-  
   const add = async () => {
     await setDoc(doc(db, "users", phoneNumberWithCC), userData);
-  setUserData({
-  });
-  
-  alert('Updated Data Successfully')
-  }; 
-  
-  const addNew = async () => {
-    
-    let setname = prompt('Please Enter the Name For New User')
-    let setpno = prompt('Please Enter the Phone Number For New User')
-    let setrno = prompt('Please Enter the Roll Number For New User')
-    let setstd = prompt('Please Enter the Standard For New User')
-    await setDoc(doc(db, "users", setpno), {
-    name: setname,
-    rno: parseInt(setrno ,10),
-    pno: setpno,
-    std: setstd,
-  });
-  alert('Created a new user with Data \n Name:' +setname+', Roll no.:'+setrno+', Phone no.:'+setpno+', Standard:'+ setstd)
+    setUserData({});
 
+    alert("Updated Data Successfully");
   };
-// const = 
+
+  const addNew = async () => {
+    let setname = prompt("Please Enter the Name For New User");
+    let setpno = prompt("Please Enter the Phone Number For New User");
+    let setrno = prompt("Please Enter the Roll Number For New User");
+    let setstd = prompt("Please Enter the Standard For New User");
+    let settype = prompt("Please Enter the Type of New User");
+    await setDoc(doc(db, "users", "+91" + setpno), {
+      name: setname,
+      rno: parseInt(setrno, 10),
+      pno: setpno,
+      std: setstd,
+      type: settype,
+    });
+    alert(
+      "Created a new user with Data \n Name:" +
+        setname +
+        ", Roll no.:" +
+        setrno +
+        ", Phone no.:" +
+        setpno +
+        ", Standard:" +
+        setstd+
+        ", Type:" +
+        settype
+    );
+  };
+  // const =
   return (
     <>
       <Spacer y={2.5} />
@@ -95,13 +105,14 @@ export default function Home() {
           css={{ minWidth: 320 }}
           contentRight={
             <>
-            <Button auto onClick={() => fetchUser()}>
-              Search
-            </Button>
-            <Spacer x={0.5} />
-            <Button auto onClick={() => addNew()}>
-              Create New
-            </Button></>
+              <Button auto onClick={() => fetchUser()}>
+                Search
+              </Button>
+              <Spacer x={0.5} />
+              <Button auto onClick={() => addNew()}>
+                Create New
+              </Button>
+            </>
           }
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
@@ -136,9 +147,13 @@ export default function Home() {
                 <Input
                   type="number"
                   placeholder="Roll No:."
+                  label="Roll No:."
                   value={userData.rno}
                   onChange={(e) =>
-                    setUserData({ ...userData, rno: parseInt(e.target.value, 10) })
+                    setUserData({
+                      ...userData,
+                      rno: parseInt(e.target.value, 10),
+                    })
                   }
                 />
               </Grid>
@@ -146,32 +161,48 @@ export default function Home() {
                 <Input
                   type="text"
                   placeholder="Name"
+                  label="Name:"
                   value={userData.name}
-                  onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+                  onChange={(e) =>
+                    setUserData({ ...userData, name: e.target.value })
+                  }
                 />
               </Grid>
               <Grid xs={16}>
                 <Input
                   type="tel"
                   placeholder="Phone Number"
+                  label="Phone Number:"
                   value={userData.pno}
-                  onChange={(e) => setUserData({ ...userData, pno: e.target.value })}
+                  onChange={(e) =>
+                    setUserData({ ...userData, pno: e.target.value })
+                  }
                 />
               </Grid>
               <Grid xs={16}>
                 <Input
                   type="number"
                   placeholder="Std:."
+                  label="Std:."
                   value={userData.std}
-                  onChange={(e) => setUserData({ ...userData, std: e.target.value })}
+                  onChange={(e) =>
+                    setUserData({ ...userData, std: e.target.value })
+                  }
+                />
+              </Grid>
+              <Grid xs={16}>
+                <Input
+                  type="text"
+                  placeholder="Type:."
+                  label="Type:"
+                  value={userData.type}
+                  onChange={(e) =>
+                    setUserData({ ...userData, type: e.target.value })
+                  }
                 />
               </Grid>
               <Grid xs={12}>
-                <Button
-                  onClick={add}
-                >
-                  Update Data
-                </Button>{" "}
+                <Button onClick={add}>Update Data</Button>{" "}
               </Grid>
             </Grid.Container>
           </Card.Body>

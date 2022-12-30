@@ -10,5 +10,6 @@ export default function InitializeFirebase() {
     appId: "1:284802831251:web:f336f78b28da4456eb0e66",
     measurementId: "G-X37C93QSDM",
   };
+  
   firebase.initializeApp(config);
 }

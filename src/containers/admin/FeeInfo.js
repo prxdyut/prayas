@@ -162,7 +162,7 @@ export default function Home() {
                 <Input
                   type="date"
                   placeholder="Date"
-                  label='Date:'
+                  labelPlaceholder='Date:'
                   value={input.unformattedDate}
                   onChange={(e) =>
                     setInput({
