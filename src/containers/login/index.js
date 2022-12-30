@@ -42,10 +42,10 @@ function SignInContainer() {
               }
             />
           </div>
-          <Link href="https://docs.google.com/forms/d/e/1FAIpQLSecdNJJ40XxPoxpaGYIkh80BjmRtee3fDd58GWq3eYGFuEMvQ/viewform?usp=sf_link">
-            <Button>Register</Button>
-          </Link>
           <Button onClick={() => setLogin(true)}>Login</Button>
+          <Link href="https://docs.google.com/forms/d/e/1FAIpQLSecdNJJ40XxPoxpaGYIkh80BjmRtee3fDd58GWq3eYGFuEMvQ/viewform?usp=sf_link">
+            <Button light>New User? Register</Button>
+          </Link>
         </Modal.Body>
       </Modal>
       <SigninWidget />

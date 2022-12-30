@@ -32,8 +32,10 @@ import { getAuth } from "firebase/auth";
 import { useRouter } from "next/router";
 
 export default function StudentContainer() {
-  const [data, setData] = useState({ installments: [] });
+  const [feeData, setFeeData] = useState({ installments: [] });
+  const [date, setDate] = useState();
   const [loading, setLoading] = useState(true);
+  const [attendanceData, setAttendanceData] = useState({ _formattedData: [] });
   const auth = getAuth();
   const user = auth.currentUser;
 
@@ -43,7 +45,7 @@ export default function StudentContainer() {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        setData(docSnap.data());
+        setFeeData(docSnap.data());
         setLoading(false);
       } else {
         alert("No Data for User!");
@@ -51,17 +53,44 @@ export default function StudentContainer() {
     }
   };
 
+  const fetchAttendanceData = async () => {
+    const docRef = doc(db, "attendance-data", date);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setAttendanceData(docSnap.data());
+      setLoading(false);
+    } else {
+      alert("No Data available!");
+      
+      setAttendanceData({ _formattedData: [] });
+    }
+  };
+
   useEffect(() => {
     fetchFeeData();
   }, [user]);
-
   return (
     <React.Fragment>
       <ProfileWidget />
       <Spacer y={1} />
-      <FeesWidget data={data} />
+      <FeesWidget data={feeData} />
       <Spacer y={1} />
-      <AttendanceWidget />
+      <AttendanceWidget data={attendanceData._formattedData}>
+        <Input
+          width="186px"
+          label="Date"
+          type="date"
+          value={date}
+          onChange={(e) => {
+            setDate(e.target.value);
+          }}
+          contentRight={
+        <Button auto onClick={() => fetchAttendanceData()}>
+          Find
+        </Button>}
+        />
+      </AttendanceWidget>
     </React.Fragment>
   );
 }

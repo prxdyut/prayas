@@ -1,7 +1,8 @@
-import { Table, Text, Input } from "@nextui-org/react";
+import { Table, Text, Input, Spacer } from "@nextui-org/react";
 import React from "react";
+import { getAuth } from "firebase/auth";
 
-export default function AttendanceWidget() {
+export default function AttendanceWidget({children, data}) {
   const columns = [
     {
       key: "name",
@@ -42,11 +43,20 @@ export default function AttendanceWidget() {
       status: "Vacation",
     },
   ];
+  
+  const auth = getAuth();
+  const user = auth.currentUser;
+
   return (
     <React.Fragment>
       <Text h4>Attendance History</Text>
+{children}
 
-      <Input width="186px" label="Date" type="date" />
+<Spacer y={1} />
+      {
+data.length != 0 ? (data.find((o) => o.userId == user.phoneNumber) ? <Text b h3>{(data.find((o) => o.userId == user.phoneNumber).timestamps).join(', ')}</Text> : <Text h3>No Data Found </Text>) : false
+}
     </React.Fragment>
   );
-}
+  }
+
