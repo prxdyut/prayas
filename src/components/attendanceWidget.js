@@ -54,7 +54,7 @@ export default function AttendanceWidget({children, data}) {
 
 <Spacer y={1} />
       {
-data.length != 0 ? (data.find((o) => o.userId == user.phoneNumber) ? <Text b h3>{(data.find((o) => o.userId == user.phoneNumber).timestamps).join(', ')}</Text> : <Text h3>No Data Found </Text>) : false
+data.length != 0 ? (data.find((o) => o.rno == user.rno) ? <Text b h3>Timestamps: {(data.find((o) => o.userId == user.phoneNumber).timestamps).join(', ')}</Text> : <Text h3>Nothing found! </Text>) : false
 }
     </React.Fragment>
   );

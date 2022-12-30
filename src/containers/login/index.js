@@ -4,7 +4,7 @@ import SigninWidget from "../../components/signinWidget";
 // import CheckSignInState from "../functions/checkSigninState";
 import { useRouter } from "next/router";
 import Link from "next/link";
-
+import firebase from "firebase/compat/app";
 import {
   Modal,
   Button,
@@ -14,14 +14,54 @@ import {
   Checkbox,
   Spacer,
 } from "@nextui-org/react";
+import {
+  doc,
+  getDoc,
+  Timestamp,
+  setDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import InitializeFirebase from "../../utils/firebase";
+import { getFirestore } from "firebase/firestore";
+
+const db = getFirestore(InitializeFirebase());
+
+import { getAuth } from "firebase/auth";
+
 function SignInContainer() {
   const [login, setLogin] = useState(false);
+  const [userData, setUserData] = useState();
+  const [error, setError] = useState();
+  const router = useRouter();
+  const auth = getAuth();
+  const user = auth.currentUser;
 
+  const fetchUserData = async () => {
+    if (user) {
+      const docRef = doc(db, "users", user.phoneNumber);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setUserData(docSnap.data());
+      } else {
+        setError("You are not a user!");
+      }
+    }
+  };
+  
+  useEffect(() => {
+    fetchUserData();
+  }, [user]);
+  if (userData) {
+    router.push("/" + userData.type);
+  }
   return (
     <>
       <Modal
         blur
-        
         preventClose
         aria-labelledby="modal-title"
         open={!login}
@@ -44,7 +84,7 @@ function SignInContainer() {
             />
           </div>
           <Button onClick={() => setLogin(true)}>Login</Button>
-          <Link href="https://docs.google.com/forms/d/e/1FAIpQLSecdNJJ40XxPoxpaGYIkh80BjmRtee3fDd58GWq3eYGFuEMvQ/viewform?usp=sf_link">
+          <Link href="https://docs.google.com/forms/d/e/1FAIpQLSf0QrvQtPWbHlL6QDL99k-tX8fMmZhewMyDG8YPyIT0rmkGNQ/viewform?usp=sf_link">
             <Button light>New User? Register</Button>
           </Link>
         </Modal.Body>

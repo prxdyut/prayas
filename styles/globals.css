@@ -165,3 +165,11 @@ div#firebaseui_container > *{
 .firebaseui-info-bar.firebaseui-id-info-bar {
     border-radius: 16px;
 }
+
+body{
+  background-image: "url('bg.jpg')";
+}
+
+table {
+    background: white;
+}
