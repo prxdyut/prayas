@@ -39,6 +39,9 @@ export default function Home() {
     pno: null,
     std: null,
     type: null,
+    school: null,
+    email: null,
+    addDate: null,
   });
 
   const phoneNumberWithCC = "+91" + phoneNumber;
@@ -72,12 +75,18 @@ export default function Home() {
     let setrno = prompt("Please Enter the Roll Number For New User");
     let setstd = prompt("Please Enter the Standard For New User");
     let settype = prompt("Please Enter the Type of New User");
+    let setschool = prompt("Please Enter the School of New User");
+    let setemail = prompt("Please Enter the Email of New User");
+    let setAdddate = prompt("Please Enter the Type of New User");
     await setDoc(doc(db, "users", "+91" + setpno), {
       name: setname,
       rno: parseInt(setrno, 10),
       pno: setpno,
       std: setstd,
       type: settype,
+      school: setSchool,
+      email: setEmail,
+      date: setAdddate,
     });
     alert(
       "Created a new user with Data \n Name:" +
@@ -87,7 +96,7 @@ export default function Home() {
         ", Phone no.:" +
         setpno +
         ", Standard:" +
-        setstd+
+        setstd +
         ", Type:" +
         settype
     );
@@ -198,6 +207,36 @@ export default function Home() {
                   value={userData.type}
                   onChange={(e) =>
                     setUserData({ ...userData, type: e.target.value })
+                  }
+                />
+              </Grid>
+              <Grid xs={16}>
+                <Input
+                  type="text"
+                  label="School:"
+                  value={userData.school}
+                  onChange={(e) =>
+                    setUserData({ ...userData, school: e.target.value })
+                  }
+                />
+              </Grid>
+              <Grid xs={16}>
+                <Input
+                  type="date"
+                  label="Addmission Date:"
+                  value={userData.addDate}
+                  onChange={(e) =>
+                    setUserData({ ...userData, addDate: e.target.value })
+                  }
+                />
+              </Grid>
+              <Grid xs={16}>
+                <Input
+                  type="text"
+                  label="email:"
+                  value={userData.email}
+                  onChange={(e) =>
+                    setUserData({ ...userData, email: e.target.value })
                   }
                 />
               </Grid>
