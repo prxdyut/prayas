@@ -89,7 +89,7 @@ export default function Home() {
       if (i % 2 == 0) {
         _formattedData.push({
           key: i,
-          userId: _IDandTimestampDataArray[i],
+          rno: parseInt(_IDandTimestampDataArray[i], 10),
           timestamps: _IDandTimestampDataArray[i + 1].split("\n"),
         });
       }

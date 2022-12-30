@@ -1,72 +1,123 @@
+import React, { useState, useEffect } from "react";
+import "firebase/compat/auth";
+import {
+  doc,
+  getDoc,
+  Timestamp,
+  setDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import InitializeFirebase from "../utils/firebase";
+import { getFirestore } from "firebase/firestore";
+import firebase from "firebase/compat/app";
+
 import {
   Table,
+  Loading,
   Text,
   Grid,
   Divider,
-  Card,
   Button,
   Popover,
   Row,
+  Container,
+  Input,
   Spacer,
+  Card,
 } from "@nextui-org/react";
-import React from "react";
+
+const db = getFirestore(InitializeFirebase());
+
+import { getAuth } from "firebase/auth";
 
 export default function ProfileWidget() {
+  const [userData, setUserData] = useState();
+  const [date, setDate] = useState();
+  const [loading, setLoading] = useState(true);
+  const [attendanceData, setAttendanceData] = useState({ _formattedData: [] });
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  const fetchUserData = async () => {
+    if (user) {
+      const docRef = doc(db, "users", user.phoneNumber);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setUserData(docSnap.data());
+        setLoading(false);
+      } else {
+        alert("No Data for User!");
+      }
+    }
+  };
+  useEffect(() => {
+    fetchUserData();
+  }, [user]);
+
+if(!userData){
+  
   return (
     <React.Fragment>
-      <Popover>
-        <Popover.Trigger>
-          <div style={{ width: "fit-content" }}>
-            <Text h2>hey, Pradyut Das</Text>
-          </div>
-        </Popover.Trigger>
-        <Popover.Content>
-          <Card css={{ mw: "330px" }}>
-            <Card.Header>
-              <Text b>Details</Text>
-            </Card.Header>
-            <Card.Divider />
-            <Card.Body css={{ py: "$10" }}>
-              <Row>
-                <Text b>Type: &nbsp;</Text>
-                <Text>Student</Text>
-              </Row>
-              <Row>
-                <Text b>Name: &nbsp;</Text>
-                <Text>Pradyut ProdipKumar Das</Text>
-              </Row>
-              <Row>
-                <Text b>Std.: &nbsp;</Text>
-                <Text>10th</Text>
-              </Row>
-              <Row>
-                <Text b>Batch: &nbsp;</Text>
-                <Text>Morning</Text>
-              </Row>
-              <Row>
-                <Text b>Phone: &nbsp;</Text>
-                <Text>+91 93232 32961</Text>
-              </Row>
-              <Row>
-                <Text b>Email: &nbsp;</Text>
-                <Text>daspradyut516@gmail.com</Text>
-              </Row>
-            </Card.Body>
-            <Card.Divider />
-            <Card.Footer>
-              <Row justify="flex-end">
-                <Button size="sm" light auto>
-                  Close
-                </Button>
-                <Spacer x={0.2} />
-                <Button size="sm" auto>
-                  Request Edit
-                </Button>
-              </Row>
-            </Card.Footer>
-          </Card>
-        </Popover.Content>
-      </Popover>
+      <Card variant="bordered" css={{ width: "100%", p: 16 }}>
+<Loading type="points-opacity"  />
+      </Card>
+    </React.Fragment>
+  );
+}
+
+  return (
+    <React.Fragment>
+      <Card variant="bordered" css={{ width: "100%", p: 16 }}>
+        <Card.Header>
+          <Text h1>hey, {userData.name}</Text>
+        </Card.Header>
+        <Card.Body css={{ py: "$10" }}>
+          <Row>
+            <Text b>Type: &nbsp;</Text>
+            <Text>{userData.type}</Text>
+          </Row>
+          <Row>
+            <Text b>Name: &nbsp;</Text>
+            <Text>{userData.name}</Text>
+          </Row>
+          <Row>
+            <Text b>Std.: &nbsp;</Text>
+            <Text>{userData.std}</Text>
+          </Row>
+          <Row>
+            <Text b>Roll No.: &nbsp;</Text>
+            <Text>{userData.rno}</Text>
+          </Row>
+          <Row>
+            <Text b>Admission Date.: &nbsp;</Text>
+            <Text>{userData.addDate}</Text>
+          </Row>
+          <Row>
+            <Text b>Phone: &nbsp;</Text>
+            <Text>+91 {userData.pno}</Text>
+          </Row>
+          <Row>
+            <Text b>Email: &nbsp;</Text>
+            <Text>{userData.email}</Text>
+          </Row>
+        </Card.Body>
+        <Card.Footer>
+          <Button
+            size="sm"
+            color="error"
+            auto
+            flat
+            onClick={() => firebase.auth().signOut()}
+            css={{ position: "fixed", top: "16px", right: "16px" }}
+          >
+            Sign-out
+          </Button>
+        </Card.Footer>
+      </Card>
     </React.Fragment>
   );
 }

@@ -37,6 +37,8 @@ export default function SigninWidget() {
     return () => unregisterAuthObserver();
   }, []);
 
+  useEffect(() => {}, [isSignedIn]);
+
   return (
     <React.Fragment>
       <div

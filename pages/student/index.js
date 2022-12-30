@@ -14,19 +14,6 @@ import SigninWidget from "../../src/components/signinWidget";
 import LoginModal from "../../src/components/needsLoginModal";
 
 export default function Home() {
-  const router = useRouter();
-  const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
-
-  // Listen to the Firebase Auth state and set the local state.
-  useEffect(() => {
-    const unregisterAuthObserver = firebase
-      .auth()
-      .onAuthStateChanged((user) => {
-        setIsSignedIn(!!user);
-      });
-    return () => unregisterAuthObserver();
-  }, []);
-
   return (
     <>
       <Head>
@@ -37,19 +24,11 @@ export default function Home() {
       </Head>
       <main>
         <Container css={{ mt: 16 }}>
-          {isSignedIn ? <StudentContainer /> : <LoginModal />}
-          <Spacer y={1} />
-          <Button
-            color="error"
-            auto
-            light
-            onClick={() => firebase.auth().signOut()}
-            css={{position: 'fixed',
-top: '16px',
-right: '16px'}}
-          >
-            Sign-out
-          </Button>
+          {/* {isSignedIn ?  */}
+          <StudentContainer /> 
+          {/* :  */}
+          <LoginModal forType='student' />
+          {/* } */}
           <Spacer y={1} />
         </Container>
       </main>
