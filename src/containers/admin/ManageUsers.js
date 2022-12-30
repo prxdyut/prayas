@@ -194,7 +194,7 @@ export default function Home() {
                 <Input
                   type="text"
                   placeholder="Type:."
-                  label="Type:."
+                  label="Type:"
                   value={userData.type}
                   onChange={(e) =>
                     setUserData({ ...userData, type: e.target.value })
