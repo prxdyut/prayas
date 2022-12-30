@@ -3,6 +3,8 @@ import TeacherContainer from "../../src/containers/teacher/index";
 import { Container } from "@nextui-org/react";
 import { Switch, Spacer, Radio, Grid, Button } from "@nextui-org/react";
 import Link from "next/link";
+import LoginModal from "../../src/components/needsLoginModal";
+
 
 export default function Home() {
   return (

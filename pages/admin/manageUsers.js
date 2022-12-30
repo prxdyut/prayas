@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Screen from '../../src/containers/admin/ManageUsers'
 import { Container, Button } from "@nextui-org/react";
+import LoginModal from "../../src/components/needsLoginModal";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
         <Container>
           <Screen />
         </Container>
+        <LoginModal />
       </main>
     </>
   );
