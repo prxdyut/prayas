@@ -38,6 +38,7 @@ export default function Home() {
     name: null,
     pno: null,
     std: null,
+    type: null,
   });
 
   const phoneNumberWithCC = "+91" + phoneNumber;
@@ -70,11 +71,13 @@ export default function Home() {
     let setpno = prompt("Please Enter the Phone Number For New User");
     let setrno = prompt("Please Enter the Roll Number For New User");
     let setstd = prompt("Please Enter the Standard For New User");
+    let settype = prompt("Please Enter the Type of New User");
     await setDoc(doc(db, "users", "+91" + setpno), {
       name: setname,
       rno: parseInt(setrno, 10),
       pno: setpno,
       std: setstd,
+      type: settype,
     });
     alert(
       "Created a new user with Data \n Name:" +
@@ -84,7 +87,9 @@ export default function Home() {
         ", Phone no.:" +
         setpno +
         ", Standard:" +
-        setstd
+        setstd+
+        ", Type:" +
+        settype
     );
   };
   // const =
@@ -182,6 +187,17 @@ export default function Home() {
                   value={userData.std}
                   onChange={(e) =>
                     setUserData({ ...userData, std: e.target.value })
+                  }
+                />
+              </Grid>
+              <Grid xs={16}>
+                <Input
+                  type="text"
+                  placeholder="Type:."
+                  label="Type:."
+                  value={userData.type}
+                  onChange={(e) =>
+                    setUserData({ ...userData, type: e.target.value })
                   }
                 />
               </Grid>
