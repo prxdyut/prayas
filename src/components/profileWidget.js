@@ -59,7 +59,7 @@ export default function ProfileWidget() {
     <React.Fragment>
           <Card  variant="bordered" css={{ width: "100%", p:16 }}>
             <Card.Header>
-            <Text h1>hey, Pradyut Das</Text>
+            <Text h1>hey, {userData.name}</Text>
             </Card.Header>
             <Card.Body css={{ py: "$10" }}>
               <Row>
