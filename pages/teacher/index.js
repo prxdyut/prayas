@@ -15,7 +15,7 @@ export default function Home() {
       <main>
         <Container css={{mt: 16}}>
           <TeacherContainer />
-          <LoginModal />
+          <LoginModal forType='teacher'  />
         </Container>
       </main>
     </>

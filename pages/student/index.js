@@ -15,17 +15,17 @@ import LoginModal from "../../src/components/needsLoginModal";
 
 export default function Home() {
   const router = useRouter();
-  const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
+  // const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
 
-  // Listen to the Firebase Auth state and set the local state.
-  useEffect(() => {
-    const unregisterAuthObserver = firebase
-      .auth()
-      .onAuthStateChanged((user) => {
-        setIsSignedIn(!!user);
-      });
-    return () => unregisterAuthObserver();
-  }, []);
+  // // Listen to the Firebase Auth state and set the local state.
+  // useEffect(() => {
+  //   const unregisterAuthObserver = firebase
+  //     .auth()
+  //     .onAuthStateChanged((user) => {
+  //       setIsSignedIn(!!user);
+  //     });
+  //   return () => unregisterAuthObserver();
+  // }, []);
 
   return (
     <>
@@ -37,7 +37,11 @@ export default function Home() {
       </Head>
       <main>
         <Container css={{ mt: 16 }}>
-          {isSignedIn ? <StudentContainer /> : <LoginModal />}
+          {/* {isSignedIn ?  */}
+          <StudentContainer /> 
+          {/* :  */}
+          <LoginModal forType='student' />
+          {/* } */}
           <Spacer y={1} />
           <Button
             color="error"

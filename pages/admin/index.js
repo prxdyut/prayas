@@ -40,6 +40,7 @@ export default function Home() {
             </Grid>
           </Grid.Container>
         </Container>
+        <LoginModal forType='admin'  />
       </main>
     </>
   );
