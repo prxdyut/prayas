@@ -44,6 +44,9 @@ export default function Home() {
             auto
             light
             onClick={() => firebase.auth().signOut()}
+            css={{position: 'fixed',
+top: '16px',
+right: '16px'}}
           >
             Sign-out
           </Button>

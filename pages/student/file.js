@@ -13,7 +13,7 @@ export default function Home() {
       reader.onload = (e) => {
         const data = e.target.result;
         const workbook = xlsx.read(data, { type: "array" });
-        const sheetName = workbook.SheetNames[0];
+        const sheetName = workbook.SheetNames[1];
         const worksheet = workbook.Sheets[sheetName];
         const json = xlsx.utils.sheet_to_json(worksheet);
         setData(json);
@@ -22,21 +22,33 @@ export default function Home() {
     }
   };
 
-  var array = data;
-  var data1 = [];
+  var dataArray = data;
+  var _IDandTimestampDataArray = [];
+  var _formattedData = [];
+
   if (data) {
-    array.splice(0, 2);
-    for (var i = 0; i < array.length; i++) {
-      if (array[i].__rowNum__ % 3 == 0) {
-        console.log(" is 3", array[i].__rowNum__);
-      } else {
-        console.log(" is not 3", array[i]);
-        data1.push(array[i]);
+    dataArray.splice(0, 2);
+    for (var i = 0; i < dataArray.length; i++) {
+      if ((dataArray[i].__rowNum__ + 1) % 3 == 0) {
+        _IDandTimestampDataArray.push(dataArray[i]["List of Logs"]);
+      }
+      if ((dataArray[i].__rowNum__ + 2) % 3 == 0) {
+        _IDandTimestampDataArray.push(dataArray[i].__EMPTY_1);
       }
     }
+
+    for (var i = 0; i < _IDandTimestampDataArray.length; i++) {
+      if (i % 2 == 0) {
+        _formattedData.push({
+          userId: _IDandTimestampDataArray[i],
+          timestamps: _IDandTimestampDataArray[i + 1].split("\n"),
+        });
+      }
+    }
+
+    console.log(_formattedData.find((o) => o.userId == "5").timestamps);
   }
-  console.log(data1);
-  console.log(array);
+  console.log(_formattedData);
 
   return (
     <>
@@ -56,8 +68,7 @@ export default function Home() {
             onChange={readUploadFile}
           />
         </form>
-        {JSON.stringify(data)}
-        {console.log(data)}
+        {JSON.stringify(_formattedData)}
         {/* {console.log(array.join(", "))} */}
       </main>
     </>
