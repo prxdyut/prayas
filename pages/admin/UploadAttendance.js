@@ -18,7 +18,7 @@ export default function Home() {
         <Container>
           <Screen />
         </Container>
-        <LoginModal forType='adm'  />
+        <LoginModal forType='admin'  />
       </main>
     </>
   );

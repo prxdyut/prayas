@@ -44,30 +44,32 @@ export default function App({forType}) {
   }, [user]);
   
   
-  const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
-  const [accessDeny, setAccessDeny] = useState(false); // Local signed-in state.
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [accessDeny, setAccessDeny] = useState(false);
 
-  // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
     const unregisterAuthObserver = firebase
       .auth()
       .onAuthStateChanged((user) => {
         setIsSignedIn(!!user);
       });
-      
+
+    return () => unregisterAuthObserver();
+  }, []);
+  
+          useEffect(() => {
   if(userData.type == forType){
     setAccessDeny(false)
   }else{
     setAccessDeny(true)
   }
+  }, [userData]);
   
-    return () => unregisterAuthObserver();
-  }, []);
-
+  
   return (
     <div>
-      {JSON.stringify(userData.type)}
-      <Modal blur aria-labelledby="modal-title" open={accessDeny}>
+      <Modal 
+        preventClose blur aria-labelledby="modal-title" open={accessDeny}>
         <Modal.Body>
           <Text id="modal-title" h4>
             You need to be a {forType} to enter this page
@@ -79,7 +81,8 @@ export default function App({forType}) {
           </Link>
         </Modal.Footer>
       </Modal>
-      <Modal blur aria-labelledby="modal-title" open={!isSignedIn}>
+      <Modal 
+        preventClose blur aria-labelledby="modal-title" open={!isSignedIn}>
         <Modal.Body>
           <Text id="modal-title" h4>
             You need to signin to enter this page
